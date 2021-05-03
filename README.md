@@ -11,10 +11,28 @@
 - [to-add] Interactive Tables
 - [to-add] Interactive Maps
 
+## Components
+- [to-add] Header/Menu Section
+- [to-add] Date and time range selector
+- [to-add] Filters section with URL, Referrer, Device, Country, City options
+- [to-add] Overall stats section with numbers, trend charts etc (both with and without referrer breakdown)
+- [to-add] Summary table component
+- [to-add] Aggregate treechart component
+- [to-add] Heat map component
+- [to-add] For individual URL pages, and engagement component with timespent, time breakdown, scroll breakdown etc
+
+## Pages
+- [to-add] Main page (serves referrer, geography, and device_type pages)
+- [to-add] URL page
+
+## Routes
+- [to-add] `/`
+  - Query terms include ref, device_type, country, city
+- [to_add] `/url`
+  - Query terms include URL, ref, device_type, country, city
+
 ## Dependencies
 - `react`
-- `material-ui` (https://github.com/mui-org/material-ui)
+- `antd` (http://github.com/ant-design/ant-design)
 - `highcharts` and `highcharts-react` (https://github.com/highcharts/highcharts-react)
-- `react-select` (https://github.com/jedwatson/react-select)
-- Might use fancier date pickers in the future
 - Might use fancier tables in the future
