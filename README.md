@@ -5,16 +5,16 @@
 
 ## Features
 - [to-add] Authentication
-- [to-add] Datetime picker to select a date range
-- [to-add] Select picker with filters (referrer, country, city etc)
+- [done] Datetime picker to select a date range
+- [done] Select picker with filters (referrer, country, city etc)
 - [to-add] Interactive Charts
 - [to-add] Interactive Tables
 - [to-add] Interactive Maps
 
 ## Components
-- [to-add] Header/Menu Section
-- [to-add] Date and time range selector
-- [to-add] Filters section with URL, Referrer, Device, Country, City options
+- [done] Header/Menu Section
+- [done] Date and time range selector
+- [done] Filters section with URL, Referrer, Device, Country, City options
 - [to-add] Overall stats section with numbers, trend charts etc (both with and without referrer breakdown)
 - [to-add] Summary table component
 - [to-add] Aggregate treechart component
