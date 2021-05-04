@@ -2,11 +2,11 @@ import { Layout, Divider } from 'antd';
 import NavBar from './Components/NavBar';
 import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
-import MainStatsComponent from './Components/MainStatsComponent';
+import MainStats from './Components/MainStats';
 
 import "./App.css"
 
-function App() {
+function Main() {
   const { Content, Footer } = Layout;
   return (
     <Layout className="layout">
@@ -23,13 +23,11 @@ function App() {
         <Divider />
 
         {/* Used to show the main stats – TO ADD */}
-        <MainStatsComponent />
-
-        {/*  */}
+        <MainStats />
       </Content>
       <Footer style={{ textAlign: 'center' }}>© Full Stack Data | Crafted with care in Singapore</Footer>
     </Layout>
   );
 }
 
-export default App;
+export default Main;
