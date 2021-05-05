@@ -2,7 +2,7 @@ import { Row, Col } from 'antd';
 import OverallStats from './StatsComponents/OverallStats';
 import SummaryTable from './StatsComponents/SummaryTable';
 import AggTreechart from './StatsComponents/AggTreechart';
-import HeatMap from './StatsComponents/HeatMap';
+import GeographyTable from './StatsComponents/GeographyTable';
 
 const MainStats = () => {
   return (
@@ -21,7 +21,7 @@ const MainStats = () => {
           <AggTreechart />
         </Col>
         <Col xs={24} md={14}>
-          <HeatMap />
+          <GeographyTable />
         </Col>
       </Row>
     </div>

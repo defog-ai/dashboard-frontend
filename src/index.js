@@ -2,13 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Main from './Main';
+import URL from './URL';
 import { BrowserRouter, Route } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <BrowserRouter>
-    <Route path="/" component={Main} />
-    {/* <Route path="/url" component={Main} /> */}
+    <Route exact path="/">
+      <Main/>
+    </Route>
+    <Route path="/url/:url">
+      <URL/>
+    </Route>
+    
   </BrowserRouter>,
   document.getElementById('root')
 );
