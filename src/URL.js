@@ -1,4 +1,4 @@
-import { Layout, Divider } from 'antd';
+import { Layout, Divider, Typography } from 'antd';
 import NavBar from './Components/NavBar';
 import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
@@ -7,9 +7,11 @@ import { useParams } from 'react-router-dom'
 
 import "./App.css"
 
-function URL() {
+function URL(props) {
   const { Content, Footer } = Layout;
-  const { url } = useParams;
+  const { pagePath } = useParams();
+  const { Title } = Typography;
+
   return (
     <Layout className="layout">
       <NavBar />
@@ -23,6 +25,8 @@ function URL() {
         <FilterSelector />
 
         <Divider />
+
+        <Title level={3}>Stats for /{pagePath}</Title>
 
         {/* Used to show the main stats – TO ADD */}
         <URLStats />

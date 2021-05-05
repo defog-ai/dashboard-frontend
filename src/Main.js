@@ -1,4 +1,4 @@
-import { Layout, Divider } from 'antd';
+import { Layout, Divider, Typography } from 'antd';
 import NavBar from './Components/NavBar';
 import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
@@ -8,6 +8,7 @@ import "./App.css"
 
 function Main() {
   const { Content, Footer } = Layout;
+  const { Title } = Typography;
   return (
     <Layout className="layout">
       <NavBar />
@@ -21,6 +22,7 @@ function Main() {
         <FilterSelector />
 
         <Divider />
+        <Title level={3}>Stats for your homepage</Title>
 
         {/* Used to show the main stats – TO ADD */}
         <MainStats />

@@ -11,9 +11,7 @@ ReactDOM.render(
     <Route exact path="/">
       <Main/>
     </Route>
-    <Route path="/url/:url">
-      <URL/>
-    </Route>
+    <Route path="/url/:pagePath+" component={URL} />
     
   </BrowserRouter>,
   document.getElementById('root')
