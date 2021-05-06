@@ -1,3 +1,4 @@
+import React from 'react';
 import { Statistic, Row, Col, Card} from 'antd';
 import TrendChart from '../Charts/TrendChart';
 

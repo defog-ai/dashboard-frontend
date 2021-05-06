@@ -1,8 +1,10 @@
+import React, { useContext } from 'react';
 import { Layout, Divider, Typography } from 'antd';
 import NavBar from './Components/NavBar';
 import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
 import URLStats from './Components/URLStats';
+import { Context } from './Context';
 import { useParams } from 'react-router-dom'
 
 import "./App.css"
@@ -11,6 +13,10 @@ function URL(props) {
   const { Content, Footer } = Layout;
   const { pagePath } = useParams();
   const { Title } = Typography;
+
+  const [context, setContext] = useContext(Context);
+  context.url = "/" + pagePath;
+  setContext(context);
 
   return (
     <Layout className="layout">

@@ -1,3 +1,4 @@
+import React from 'react';
 import DataTable from './DataTable'
 import { Card } from 'antd';
 

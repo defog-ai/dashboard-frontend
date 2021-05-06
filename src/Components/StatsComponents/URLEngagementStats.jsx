@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Row, Col } from 'antd';
 import EngagedTime from '../Charts/EngagedTime'
 import ScrollDepth from '../Charts/ScrollDepth'

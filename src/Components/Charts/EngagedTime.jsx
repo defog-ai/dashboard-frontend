@@ -1,4 +1,4 @@
-// import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Chart from '../BaseCharts/Chart.jsx';
 
 const EngagedTime = () => {

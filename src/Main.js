@@ -1,14 +1,21 @@
+import React, { useContext } from 'react';
 import { Layout, Divider, Typography } from 'antd';
 import NavBar from './Components/NavBar';
 import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
 import MainStats from './Components/MainStats';
+import { Context } from './Context';
 
 import "./App.css"
 
 function Main() {
   const { Content, Footer } = Layout;
   const { Title } = Typography;
+  
+  const [context, setContext] = useContext(Context);
+  context.url = null;
+  setContext(context);
+  
   return (
     <Layout className="layout">
       <NavBar />
@@ -22,7 +29,7 @@ function Main() {
         <FilterSelector />
 
         <Divider />
-        <Title level={3}>Stats for your homepage</Title>
+        <Title level={3}>Your website's overall statistics</Title>
 
         {/* Used to show the main stats – TO ADD */}
         <MainStats />

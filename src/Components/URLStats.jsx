@@ -1,3 +1,4 @@
+import React from 'react';
 import { Row, Col } from 'antd';
 import OverallStatsURL from './StatsComponents/OverallStatsURL';
 import AggTreechart from './StatsComponents/AggTreechart';

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Row, Col } from 'antd';
 import OverallStats from './StatsComponents/OverallStats';
 import SummaryTable from './StatsComponents/SummaryTable';

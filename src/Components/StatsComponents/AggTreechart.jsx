@@ -1,3 +1,4 @@
+import React from 'react';
 import TreeMap from '../Charts/TreeMap';
 import { Card} from 'antd';
 

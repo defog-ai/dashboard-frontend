@@ -1,10 +1,38 @@
+import React, { useContext } from 'react';
 import { Row, Col, Select } from 'antd';
+import {Context} from '../Context';
 
 const FilterSelector = () => {
   const { Option } = Select;
 
-  const handleChange = function() {
-    console.log(this);
+  const [context, setContext] = useContext(Context);
+
+  const handleReferrerChange = function(value, option) {
+    setContext({
+      ...context,
+      referrers: value
+    });
+  }
+
+  const handleDeviceTypeChange = function(value, option) {
+    setContext({
+      ...context,
+      deviceTypes: value
+    });
+  }
+
+  const handleCountryChange = function(value, option) {
+    setContext({
+      ...context,
+      countries: value
+    });
+  }
+
+  const handleCityChange = function(value, option) {
+    setContext({
+      ...context,
+      cities: value
+    });
   }
 
   const referrerOptions = [];
@@ -36,7 +64,8 @@ const FilterSelector = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Referrers"
-          onChange={handleChange}
+          onChange={handleReferrerChange}
+          value={context.referrers}
         >
           {referrerOptions}
         </Select>
@@ -48,7 +77,8 @@ const FilterSelector = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Device Type"
-          onChange={handleChange}
+          onChange={handleDeviceTypeChange}
+          value={context.deviceTypes}
         >
           {deviceTypeOptions}
         </Select>
@@ -60,7 +90,8 @@ const FilterSelector = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Countries"
-          onChange={handleChange}
+          onChange={handleCountryChange}
+          value={context.countries}
         >
           {countryOptions}
         </Select>
@@ -72,7 +103,8 @@ const FilterSelector = () => {
           allowClear
           style={{ width: '100%' }}
           placeholder="Cities"
-          onChange={handleChange}
+          onChange={handleCityChange}
+          value={context.cities}
         >
           {cityOptions}
         </Select>
