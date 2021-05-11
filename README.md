@@ -25,12 +25,15 @@
 - [deferred] Heat map component (For now, just using a table. In future, can use https://github.com/zcreativelabs/react-simple-maps)
 - [done] For individual URL pages, and engagement component with timespent, time breakdown, scroll breakdown etc
 
-## Hooks
-- Value tracking for timerange, URL, referrer, device_type, country, city
-- Making URL requests and updating data
+## Hooks and Context
+- [done] Value tracking for timerange, URL, referrer, device_type, country, city
+- [done] Making URL requests and updating data
+
+## Local Storage
+- [deferred] Use local storage to preserve state even if user opens links in new tab
 
 ## Dependencies
 - `react`
 - `antd` (http://github.com/ant-design/ant-design)
 - `highcharts` and `highcharts-react` (https://github.com/highcharts/highcharts-react)
-- Might use fancier tables in the future
+- May replace highcharts with D3 or another alternative in the future

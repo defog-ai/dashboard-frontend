@@ -1,37 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../Context';
 import { Card } from 'antd';
 import DataTable from './DataTable'
 
 const EventSummary = () => {
+  const [data, setData] = useState({});
+  const [context] = useContext(Context);
+
+  const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
+  const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
+  const clientId = "popper_covid";
+  const referrers = context.referrers;
+  const deviceTypes = context.deviceTypes;
+  const countries = context.countries;
+  const cities = context.cities;
+  const url = context.url;
+  
+  const getData = async() => {
+    const urlToFetch = "https://asia-south1-the-broadline.cloudfunctions.net/get-sql-data";
+    const response = await fetch(urlToFetch, {
+      method: "POST",
+      body: JSON.stringify({
+        endpoint: "event_list",
+        client_id: clientId,
+        time_from: timeFrom,
+        time_to: timeTo,
+        referrer: referrers,
+        device_type: deviceTypes,
+        country: countries,
+        city: cities,
+        url: url
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    setData(data);
+  }
+
+  useEffect(() => {
+    const data = getData();
+  }, [context]);
+  
   const columns = [
-    {title: "Category", key: "cat", search: true, sort: false},
-    {title: "Name", key: "name", search: true, sort: false},
-    {title: "Counts", key: "count", search: false, sort: true}
+    {title: "Category", key: "event_cat", search: true, sort: false},
+    {title: "Name", key: "event", search: true, sort: false},
+    {title: "Counts", key: "hits", search: false, sort: true}
   ]
-  const data = [
-    {
-      key: '1',
-      cat: "Dropdown",
-      name: "Country_USA",
-      count: 18
-    },
-    {
-      key: '2',
-      cat: "Dropdown",
-      name: "Country_India",
-      count: 14
-    },
-    {
-      key: '3',
-      cat: "Dropdown",
-      name: "State_Uttar Pradesh",
-      count: 11
-    }
-  ];
   
   return (
     <Card title="Top Events">
-      <DataTable data={data} columns={columns}></DataTable>
+      <DataTable data={data.data} columns={columns}></DataTable>
     </Card>
   )
 }
