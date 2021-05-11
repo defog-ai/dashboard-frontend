@@ -1,22 +1,47 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../Context';
 import Chart from '../BaseCharts/Chart.jsx';
 
 const EngagedTime = () => {
-  // First, get data from URL
-  // const [data, setData] = useState([]);
-  
-  // const getData = async() => {
-  //   const response = await fetch("https://popper.ai/ncov19/trend_data_india.json");
-  //   const data = await response.json();
-  //   setData(data);
-  // }
+  const [data, setData] = useState([]);
+  const [context] = useContext(Context);
 
-  // useEffect(() => {
-  //   const data = getData();
-  // }, []);
+  const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
+  const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
+  const clientId = "popper_covid";
+  const referrers = context.referrers;
+  const deviceTypes = context.deviceTypes;
+  const countries = context.countries;
+  const cities = context.cities;
+  const url = context.url;
 
-  // TODO: get this directly from URL
-  const data = [39, 3, 14, 8, 5, 0, 31];
+  const getData = async() => {
+    const urlToFetch = "https://asia-south1-the-broadline.cloudfunctions.net/get-sql-data";
+    const response = await fetch(urlToFetch, {
+      method: "POST",
+      body: JSON.stringify({
+        endpoint: "timespent",
+        client_id: clientId,
+        time_from: timeFrom,
+        time_to: timeTo,
+        referrer: referrers,
+        device_type: deviceTypes,
+        country: countries,
+        city: cities,
+        url: url
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    setData(data);
+  }
+
+  useEffect(() => {
+    const data = getData();
+  }, [context]);
+
   const options = {
     chart: {type: 'areaspline'},
     title: {text: 'Engaged Time Distribution'},
@@ -27,7 +52,7 @@ const EngagedTime = () => {
     plotOptions: {area: {marker: {enabled: false, symbol: 'circle', radius: 2, states: {hover: {enabled: true}}}}},
     legend: {enabled: false},
     exporting: {enabled: false},
-    series: [{name: 'timespent', data: data, color: '#337ab7'}]
+    series: [{name: 'timespent', data: data.data, color: '#337ab7'}]
   };
 
   return (

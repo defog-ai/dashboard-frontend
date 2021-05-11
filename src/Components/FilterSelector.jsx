@@ -42,7 +42,7 @@ const FilterSelector = () => {
 
   const deviceTypeOptions = [
     <Option key="Desktop">Desktop</Option>,
-    <Option key="Mobile">Mobile</Option>,
+    <Option key="Mobile">Mobile</Option>
   ];
 
   const countryOptions = [];

@@ -6,23 +6,33 @@ const TrendChart = () => {
   const [data, setData] = useState([]);
   const [context] = useContext(Context);
 
-  const timerange = context.inputDateRange[0].format("YYYY-MM-DD-HH-00") + "to" + context.inputDateRange[1].format("YYYY-MM-DD-HH-00");
+  const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
+  const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
+  const clientId = "popper_covid";
+  const referrers = context.referrers;
+  const deviceTypes = context.deviceTypes;
+  const countries = context.countries;
+  const cities = context.cities;
+  const url = context.url;
   // add others to this, like referrers, devices, countries, cities etc later on
 
   const getData = async() => {
-    const url = "https://dashboard.loki.ai/get_pv_trend_data?" + new URLSearchParams({
-      timerange: timerange,
-      // ref: ref,
-      // deviceTypes: deviceTypes,
-      // countries: countries,
-      // cities: cities,
-      // url: url
-    });
-    const response = await fetch(url, {
-      // method: "POST",
-      credentials: "include",
+    const urlToFetch = "https://asia-south1-the-broadline.cloudfunctions.net/get-sql-data";
+    const response = await fetch(urlToFetch, {
+      method: "POST",
+      body: JSON.stringify({
+        endpoint: "trends",
+        client_id: clientId,
+        time_from: timeFrom,
+        time_to: timeTo,
+        referrer: referrers,
+        device_type: deviceTypes,
+        country: countries,
+        city: cities,
+        url: url
+      }),
       headers: {
-        "Cookie": "client_id=cedric; login_cookie=319633a0b01b255819cb18457153eba1caa075de7984c515039733cb24d138e0"
+        'Content-Type': 'application/json'
       }
     });
     const data = await response.json();
@@ -38,25 +48,25 @@ const TrendChart = () => {
     {
       type: 'area',
       name: 'Google',
-      data: data.google_trend,
+      data: data.search_pvs,
       color: '#7fc97f'
     },
     {
       type: 'area',
       name: 'Direct',
-      data: data.direct_trend,
+      data: data.direct_pvs,
       color: '#fdc086'
     },
     {
       type: 'area',
       name: 'Other',
-      data: data.other_trend,
+      data: data.other_pvs,
       color: '#d95f02'
     },
     {
       type: 'area',
       name: 'Facebook',
-      data: data.facebook_trend,
+      data: data.social_pvs,
       color: '#386cb0'
     },
     {
