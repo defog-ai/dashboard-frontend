@@ -1,11 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Row, Col, Select } from 'antd';
 import {Context} from '../Context';
 
 const FilterSelector = () => {
-  const { Option } = Select;
-
+  const [data, setData] = useState([
+    {referrers: [], countries: [], cities: []}
+  ]);
   const [context, setContext] = useContext(Context);
+
+  const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
+  const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
+  const clientId = "popper_covid";
+  
+  const getData = async() => {
+    const urlToFetch = "https://asia-south1-the-broadline.cloudfunctions.net/get-sql-data";
+    const response = await fetch(urlToFetch, {
+      method: "POST",
+      body: JSON.stringify({
+        endpoint: "get_options",
+        client_id: clientId,
+        time_from: timeFrom,
+        time_to: timeTo
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    setData(data);
+  }
+
+  useEffect(() => {
+    const data = getData();
+  }, [context]);
+
+  const { Option } = Select;
 
   const handleReferrerChange = function(value, option) {
     setContext({
@@ -36,23 +65,29 @@ const FilterSelector = () => {
   }
 
   const referrerOptions = [];
-  for (let i = 10; i < 36; i++) {
-    referrerOptions.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+  if ('referrers' in data) {
+    for (const option of data.referrers) {
+      referrerOptions.push(<Option key={option}>{option}</Option>);
+    }  
   }
-
+  
   const deviceTypeOptions = [
-    <Option key="Desktop">Desktop</Option>,
-    <Option key="Mobile">Mobile</Option>
+    <Option key="desktop">desktop</Option>,
+    <Option key="mobile">mobile</Option>
   ];
 
   const countryOptions = [];
-  for (let i = 10; i < 36; i++) {
-    countryOptions.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+  if ('countries' in data) {
+    for (const option of data.countries) {
+      countryOptions.push(<Option key={option}>{option}</Option>);
+    }
   }
 
   const cityOptions = [];
-  for (let i = 10; i < 36; i++) {
-    cityOptions.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+  if ('cities' in data) {
+    for (const option of data.cities) {
+      cityOptions.push(<Option key={option}>{option}</Option>);
+    }
   }
 
   return (

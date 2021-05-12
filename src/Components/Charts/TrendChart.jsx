@@ -44,38 +44,50 @@ const TrendChart = () => {
   }, [context]);
 
   // TODO: make this repeatable for all trend charts (referrer view, URL view, geography view etc)
-  const series_to_plot = [
-    {
-      type: 'area',
-      name: 'Google',
-      data: data.search_pvs,
-      color: '#7fc97f'
-    },
-    {
-      type: 'area',
-      name: 'Direct',
-      data: data.direct_pvs,
-      color: '#fdc086'
-    },
-    {
-      type: 'area',
-      name: 'Other',
-      data: data.other_pvs,
-      color: '#d95f02'
-    },
-    {
-      type: 'area',
-      name: 'Facebook',
-      data: data.social_pvs,
-      color: '#386cb0'
-    },
-    {
-      type: 'line',
-      name: '7 days ago',
-      data: data.typical_day,
-      color:'#e0e0e0'
-    }, 
-  ];
+  let series_to_plot;
+  if (context.referrers.length === 0 && context.url == null) {
+    series_to_plot = [
+      {
+        type: 'area',
+        name: 'Google',
+        data: data.search_pvs,
+        color: '#7fc97f'
+      },
+      {
+        type: 'area',
+        name: 'Direct',
+        data: data.direct_pvs,
+        color: '#fdc086'
+      },
+      {
+        type: 'area',
+        name: 'Other',
+        data: data.other_pvs,
+        color: '#d95f02'
+      },
+      {
+        type: 'area',
+        name: 'Facebook',
+        data: data.social_pvs,
+        color: '#386cb0'
+      },
+      {
+        type: 'line',
+        name: '7 days ago',
+        data: data.typical_day,
+        color:'#e0e0e0'
+      }, 
+    ];
+  } else {
+    series_to_plot = [
+      {
+        type: 'area',
+        name: 'PVs',
+        data: data.total_pvs,
+        color: '#7fc97f'
+      } 
+    ];
+  }
 
   const options = {
     chart: {
