@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Context } from '../../Context'
 import Chart from '../BaseCharts/Chart.jsx';
+import { Spin } from 'antd';
 
 const TrendChart = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -14,6 +16,7 @@ const TrendChart = () => {
   const countries = context.countries;
   const cities = context.cities;
   const url = context.url;
+  const chartResolution = context.chartResolution;
   // add others to this, like referrers, devices, countries, cities etc later on
 
   const getData = async() => {
@@ -29,18 +32,43 @@ const TrendChart = () => {
         device_type: deviceTypes,
         country: countries,
         city: cities,
-        url: url
+        url: url,
+        chart_resolution: chartResolution
       }),
       headers: {
         'Content-Type': 'application/json'
       }
     });
+
     const data = await response.json();
-    setData(data);
+    if (context.chartResolution == "h") {
+      const updatedData = {};
+      for (const key in data) {
+        const finalValues = [];
+        const returnedValues = Object.fromEntries(data[key]);
+        const finalDate = context.inputDateRange[1].valueOf();
+
+        for (const plotDate=context.inputDateRange[0].clone(); plotDate.isBefore(finalDate); plotDate.add(1, chartResolution)) {
+          const dt = plotDate.valueOf()
+          if (dt in returnedValues) {
+            finalValues.push([dt, returnedValues[dt]]);
+          } else {
+            finalValues.push([dt, 0]);
+          }
+        }
+        
+        updatedData[key] = finalValues;
+      }
+      setData(updatedData);
+    } else {
+      setData(data);
+    }
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
 
   // TODO: make this repeatable for all trend charts (referrer view, URL view, geography view etc)
@@ -49,7 +77,7 @@ const TrendChart = () => {
     series_to_plot = [
       {
         type: 'area',
-        name: 'Google',
+        name: 'Search',
         data: data.search_pvs,
         color: '#7fc97f'
       },
@@ -67,7 +95,13 @@ const TrendChart = () => {
       },
       {
         type: 'area',
-        name: 'Facebook',
+        name: 'Forum',
+        data: data.forum_pvs,
+        color: '#999999'
+      },
+      {
+        type: 'area',
+        name: 'Social',
         data: data.social_pvs,
         color: '#386cb0'
       },
@@ -97,7 +131,7 @@ const TrendChart = () => {
     time: {
       useUTC: false
     },
-    title: {text: 'Pageviews compared to the typical day' },
+    title: {text: 'Pageviews' },
     xAxis: {type: 'datetime', tickPixelInterval: 50},
     yAxis: {
       title: {text: null},
@@ -121,12 +155,15 @@ const TrendChart = () => {
     series: series_to_plot
   }
 
-  
-
-  // Then, construct chart
-  return (
-    <Chart options={options}/>
-  )
+  if (loading) {
+    return (
+      <Spin />
+    )
+  } else {
+    return (
+      <Chart options={options}/>
+    )
+  }
 }
 
 export default TrendChart

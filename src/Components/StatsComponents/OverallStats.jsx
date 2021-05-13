@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../Context';
-import { Statistic, Row, Col, Card} from 'antd';
+import { Statistic, Row, Col, Card, Spin } from 'antd';
 import TrendChart from '../Charts/TrendChart';
 
 const OverallStatsURL = () => {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -36,32 +37,42 @@ const OverallStatsURL = () => {
     });
     const data = await response.json();
     setData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
 
-  return (
-    <Card title="Overview" >
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        <Col span={8}>
-          <Statistic title="Visits" value={data.sessions} />
-        </Col>
-        <Col span={8}>
-          <Statistic title="Mins/Visit" value={data.mins_per_visit} />
-        </Col>
-        <Col span={8}>
-          <Statistic title="% first time visits" value={data.first_visits} suffix={"%"} />
-        </Col>
-      </Row>
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        <Col span={24}>
-          <TrendChart />
-        </Col>
-      </Row>
-    </Card>
-  )
+  if (loading) {
+    return (
+      <Card title="Overview">
+        <Spin />
+      </Card>
+    )
+  } else {
+    return (
+      <Card title="Overview" >
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+          <Col span={8}>
+            <Statistic title="Visits" value={data.sessions} />
+          </Col>
+          <Col span={8}>
+            <Statistic title="Mins/Visit" value={data.mins_per_visit} />
+          </Col>
+          <Col span={8}>
+            <Statistic title="% first time visits" value={data.first_visits} suffix={"%"} />
+          </Col>
+        </Row>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+          <Col span={24}>
+            <TrendChart />
+          </Col>
+        </Row>
+      </Card>
+    )
+  }
 }
 
 export default OverallStatsURL

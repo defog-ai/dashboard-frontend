@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../Context';
 import DataTable from './DataTable'
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 
 const GeographyTable = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -37,22 +38,32 @@ const GeographyTable = () => {
     });
     const data = await response.json();
     setData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
   
   const columns = [
     {title: "Country", key: "country", search: true, sort: false},
     {title: "City", key: "city", search: true, sort: false},
-    {title: "Visits", key: "visits", search: false, sort: true}
+    {title: "Visits", key: "visits", search: false}
   ]
-  return (
-    <Card title="Top Geographies">
-      <DataTable data={data.data} columns={columns}></DataTable>
-    </Card>
-  )
+  if (loading) {
+    return (
+      <Card title="Top Geographies">
+        <Spin />
+      </Card>
+    )
+  } else {
+    return (
+      <Card title="Top Geographies">
+        <DataTable data={data.data} columns={columns}></DataTable>
+      </Card>
+    )
+  }
 }
 
 export default GeographyTable

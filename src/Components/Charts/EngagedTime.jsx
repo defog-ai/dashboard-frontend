@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../Context';
 import Chart from '../BaseCharts/Chart.jsx';
+import { Spin } from 'antd';
 
 const EngagedTime = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -36,10 +38,12 @@ const EngagedTime = () => {
     });
     const data = await response.json();
     setData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
 
   const options = {
@@ -55,9 +59,15 @@ const EngagedTime = () => {
     series: [{name: 'timespent', data: data.data, color: '#337ab7'}]
   };
 
-  return (
-    <Chart options={options} />
-  )
+  if (loading) {
+    return (
+      <Spin />
+    )
+  } else {
+    return (
+      <Chart options={options} />
+    )
+  }
 }
 
 export default EngagedTime

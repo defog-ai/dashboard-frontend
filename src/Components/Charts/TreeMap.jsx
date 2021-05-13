@@ -4,9 +4,11 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import heatmap from 'highcharts/modules/heatmap';
 import treemap from 'highcharts/modules/treemap';
+import { Spin } from 'antd';
 
 const TreeMap = () => {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -41,10 +43,12 @@ const TreeMap = () => {
     });
     const data = await response.json();
     setData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
 
   const colorRange = [
@@ -71,14 +75,19 @@ const TreeMap = () => {
     credits: {enabled: false}
   }
 
-  heatmap(Highcharts);
-  treemap(Highcharts);
-
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options} />
-  )
+  if (loading) {
+    return (
+      <Spin />
+    )
+  } else {
+    heatmap(Highcharts);
+    treemap(Highcharts);
+    return (
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options} />
+    )
+  }
 }
 
 export default TreeMap

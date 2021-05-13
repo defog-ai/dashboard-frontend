@@ -13,7 +13,8 @@ const App = () => {
     deviceTypes: [],
     countries: [],
     cities: [],
-    url: null
+    url: null,
+    chartResolution: "h"
   });
 
   return (
@@ -22,7 +23,7 @@ const App = () => {
         <Route exact path="/">
           <Main/>
         </Route>
-        <Route path="/url/:pagePath+">
+        <Route path="/url/:pagePath*">
           <URL/>
         </Route>    
       </BrowserRouter>

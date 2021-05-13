@@ -1,6 +1,6 @@
 import React from 'react';
 import TreeMap from '../Charts/TreeMap';
-import { Card} from 'antd';
+import { Card } from 'antd';
 
 
 const AggTreechart = () => {

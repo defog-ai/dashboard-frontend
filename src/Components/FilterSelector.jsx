@@ -31,7 +31,7 @@ const FilterSelector = () => {
   }
 
   useEffect(() => {
-    const data = getData();
+    getData();
   }, [context]);
 
   const { Option } = Select;

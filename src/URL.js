@@ -5,17 +5,19 @@ import TimeSelector from './Components/TimeSelector';
 import FilterSelector from './Components/FilterSelector';
 import URLStats from './Components/URLStats';
 import { Context } from './Context';
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 import "./App.css"
 
-function URL(props) {
+function URL() {
   const { Content, Footer } = Layout;
-  const { pagePath } = useParams();
+  // const { pagePath } = useParams();
+  const pagePath = window.location.pathname.substr(4,);
   const { Title } = Typography;
 
   const [context, setContext] = useContext(Context);
-  context.url = "/" + pagePath;
+  // context.url = "/" + pagePath;
+  context.url = pagePath;
   setContext(context);
 
   return (
@@ -32,7 +34,7 @@ function URL(props) {
 
         <Divider />
 
-        <Title level={3}>Stats for /{pagePath}</Title>
+        <Title level={3}>Stats for {pagePath}</Title>
 
         {/* Used to show the main stats – TO ADD */}
         <URLStats />

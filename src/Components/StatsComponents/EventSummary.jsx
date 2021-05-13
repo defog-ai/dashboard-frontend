@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Context } from '../../Context';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 import DataTable from './DataTable'
 
 const EventSummary = () => {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const [context] = useContext(Context);
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
@@ -37,23 +38,33 @@ const EventSummary = () => {
     });
     const data = await response.json();
     setData(data);
+    setLoading(false);
   }
 
   useEffect(() => {
-    const data = getData();
+    setLoading(true);
+    getData();
   }, [context]);
   
   const columns = [
     {title: "Category", key: "event_cat", search: true, sort: false},
     {title: "Name", key: "event", search: true, sort: false},
-    {title: "Counts", key: "hits", search: false, sort: true}
+    {title: "Counts", key: "hits", search: false}
   ]
   
-  return (
-    <Card title="Top Events">
-      <DataTable data={data.data} columns={columns}></DataTable>
-    </Card>
-  )
+  if (loading) {
+    return (
+      <Card title="Top Events">
+        <Spin />
+      </Card>
+    )
+  } else {
+    return (
+      <Card title="Top Events">
+        <DataTable data={data.data} columns={columns}></DataTable>
+      </Card>
+    )
+  }
 }
 
 export default EventSummary
