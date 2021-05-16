@@ -73,7 +73,7 @@ const TrendChart = () => {
 
   // TODO: make this repeatable for all trend charts (referrer view, URL view, geography view etc)
   let series_to_plot;
-  if (context.referrers.length === 0 && context.url == null) {
+  if (context.url == null && context.referrers.length === 0 && context.countries.length === 0 && context.cities.length === 0) {
     series_to_plot = [
       {
         type: 'area',
