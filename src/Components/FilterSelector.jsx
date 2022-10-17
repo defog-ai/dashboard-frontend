@@ -10,7 +10,7 @@ const FilterSelector = () => {
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
   const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
-  const clientId = "popper_covid";
+  const clientId = "dn_app";
   
   const getData = async() => {
     const urlToFetch = "https://asia-south1-the-broadline.cloudfunctions.net/get-sql-data";

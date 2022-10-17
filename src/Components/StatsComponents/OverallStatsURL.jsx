@@ -10,7 +10,7 @@ const OverallStats = () => {
 
   const timeFrom = context.inputDateRange[0].format("YYYY-MM-DD-HH");
   const timeTo = context.inputDateRange[1].format("YYYY-MM-DD-HH");
-  const clientId = "popper_covid";
+  const clientId = "dn_app";
   const referrers = context.referrers;
   const deviceTypes = context.deviceTypes;
   const countries = context.countries;
